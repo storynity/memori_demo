@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+      memori | 思い出が育つ木
+    </title>
+    <meta name="description" content="一枚の葉に、ひとつの思い出を。">
+    <!-- 色・文字・レイアウトの設定 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Noto+Serif+JP:wght@400;500;600&display=swap');
+      :root {
+        --ink: #494438;
+        --muted: #827c70;
+        --paper: #f7f5ef;
+        --line: #dedbd1;
+        --green: #65725a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font: 14px/1.9 'Noto Sans JP',sans-serif;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,input,textarea,select {
+        font: inherit;
+      }
+
+      button,a,input,textarea,select {
+        outline-offset: 5px;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      header {
+        height: 110px;
+        max-width: 1320px;
+        margin: auto;
+        padding: 0 6%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        font: 38px Georgia,serif;
+        letter-spacing: -2px;
+      }
+
+      .brand span {
+        display: block;
+        font: 9px 'Noto Sans JP';
+        letter-spacing: 2px;
+        margin-top: 8px;
+      }
+
+      .back {
+        font-size: 12px;
+      }
+
+      main {
+        max-width: 1160px;
+        margin: auto;
+        padding: 65px 30px;
+      }
+
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 3px;
+        color: var(--muted);
+      }
+
+      h1,h2,h3 {
+        font-family: 'Noto Serif JP',serif;
+        font-weight: 500;
+      }
+
+      h1 {
+        font-size: 42px;
+        line-height: 1.65;
+        letter-spacing: 4px;
+        margin: 20px 0;
+      }
+
+      h2 {
+        font-size: 25px;
+      }
+
+      p {
+        color: var(--muted);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 50px;
+        align-items: center;
+        margin-bottom: 65px;
+      }
+
+      .hero p {
+        line-height: 2.3;
+      }
+
+      .tree {
+        width: 100%;
+        height: 290px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 15px;
+        margin-bottom: 28px;
+      }
+
+      .section-head h2 {
+        font-size: 20px;
+        margin: 0;
+      }
+
+      .section-head span {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        gap: 20px;
+      }
+
+      .leaf-card {
+        background: #fffdf8;
+        border: 1px solid #e8e4da;
+        padding: 25px 18px;
+        text-align: left;
+        min-height: 200px;
+        transition: transform .2s,box-shadow .2s;
+        color: var(--ink);
+      }
+
+      .leaf-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px #4b473710;
+      }
+
+      .leaf-icon {
+        width: 44px;
+        height: 62px;
+        border-radius: 85% 5% 85% 5%;
+        transform: rotate(25deg);
+        background: var(--leaf,#deb575);
+        opacity: .8;
+        margin: 0 auto 24px;
+        position: relative;
+      }
+
+      .leaf-icon:after {
+        content: '';
+        position: absolute;
+        height: 80%;
+        width: 1px;
+        background: #fff8;
+        left: 50%;
+        top: 12%;
+        transform: rotate(8deg);
+      }
+
+      .leaf-card small {
+        font-size: 9px;
+        letter-spacing: 2px;
+        color: var(--muted);
+      }
+
+      .leaf-card h3 {
+        font-size: 14px;
+        margin: 6px 0;
+      }
+
+      .leaf-card p {
+        font-size: 11px;
+        margin: 0;
+      }
+
+      .note {
+        font-size: 11px;
+        margin: 25px 0 60px;
+      }
+
+      .story {
+        border-top: 1px solid var(--line);
+        padding-top: 35px;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 35px;
+        margin: 25px 0;
+      }
+
+      .steps span {
+        font: italic 24px Georgia;
+        color: #a49d89;
+      }
+
+      .steps h3 {
+        font-size: 16px;
+      }
+
+      .steps p {
+        font-size: 12px;
+      }
+
+      footer {
+        max-width: 1100px;
+        border-top: 1px solid var(--line);
+        margin: 20px auto;
+        padding: 28px 0;
+        font: 24px Georgia;
+      }
+
+      footer span {
+        float: right;
+        font: 10px 'Noto Sans JP';
+        letter-spacing: 2px;
+      }
+
+      .primary {
+        background: var(--green);
+        color: white;
+        border: 0;
+        padding: 15px 24px;
+        display: inline-flex;
+        gap: 35px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .secondary {
+        border: 1px solid var(--line);
+        background: none;
+        color: var(--ink);
+        padding: 12px 20px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 30px 0;
+      }
+
+      .detail {
+      max-width: 720px;
+      margin: auto;
+      padding: 24px 0;
+    }
+
+    .detail h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(26px, 5vw, 36px);
+      line-height: 1.6;
+    }
+
+    .memory-layout {
+      display: grid;
+      gap: 48px;
+      margin-top: 40px;
+    }
+
+    .memory-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+      grid-template-areas: "comment photo";
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* 2枚目、4枚目……は写真を左にする */
+    .memory-row:nth-child(even) {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      grid-template-areas: "photo comment";
+    }
+
+    .memory-photo {
+      grid-area: photo;
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .memory-comment {
+      grid-area: comment;
+      margin: 0;
+      font-size: 15px;
+      line-height: 2.2;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    /* 動画・音声は切り抜かず、そのまま表示 */
+    .memory-extra {
+      display: grid;
+      gap: 16px;
+    }
+
+    .memory-extra:empty {
+      display: none;
+    }
+
+    .memory-extra video {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  background: #eeebe4;
+    }
+
+    .memory-extra audio {
+      display: block;
+      width: 100%;
+    }
+
+    .detail .message {
+  margin: 0;
+  font-size: 15px;
+  line-height: 2.2;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 480px) {
+      .memory-layout {
+        gap: 32px;
+        margin-top: 28px;
+      }
+
+      .memory-row,
+      .memory-row:nth-child(even) {
+        gap: 14px;
+      }
+
+      .memory-comment {
+        font-size: 13px;
+    line-height: 2;
+      }
+    }
+
+      .meta {
+        font-size: 12px;
+        letter-spacing: 2px;
+      }
+
+      .empty {
+        padding: 55px 20px;
+        text-align: center;
+      }
+
+      .empty .leaf-icon {
+        width: 80px;
+        height: 110px;
+      }
+
+      .empty p {
+        margin: 25px 0;
+      }
+
+      dialog {
+        width: min(650px,95vw);
+        border: 0;
+        padding: 35px;
+        background: var(--paper);
+        color: var(--ink);
+        max-height: 92vh;
+      }
+
+      dialog::backdrop {
+        background: #34352e80;
+        backdrop-filter: blur(4px);
+      }
+
+      .form-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .form-head button {
+        border: 0;
+        background: none;
+        font-size: 28px;
+      }
+
+      label {
+        display: block;
+        font-size: 12px;
+        margin: 20px 0 8px;
+      }
+
+      input,textarea,select {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--line);
+        background: #fffdf9;
+        margin-top: 8px;
+        color: var(--ink);
+        border-radius: 0;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .hint {
+        font-size: 11px;
+      }
+
+      .attachment {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        margin: 8px 0;
+      }
+
+      .attachment button {
+        background: none;
+        border: 0;
+        color: #9a594c;
+      }
+
+      #error {
+        color: #a34535;
+      }
+
+      .loading {
+        padding: 80px;
+        text-align: center;
+      }
+
+      @media(max-width:800px) {
+        header {
+          height: 90px;
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .hero h1 {
+          font-size: 32px;
+        }
+
+        .tree {
+          height: 220px;
+        }
+
+        .grid {
+          grid-template-columns: repeat(3,1fr);
+          gap: 12px;
+        }
+
+        .leaf-card {
+          min-height: 175px;
+          padding: 20px 12px;
+        }
+
+        main {
+          padding: 40px 20px;
+        }
+
+        .steps {
+          gap: 20px;
+        }
+
+        footer {
+          margin: 20px;
+          padding: 25px 0;
+        }
+
+        footer span {
+          letter-spacing: 0;
+        }
+
+      }
+
+      @media(max-width:480px) {
+        .grid {
+          grid-template-columns: repeat(2,1fr);
+        }
+
+        .steps {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .steps h3 {
+          display: inline;
+          margin-left: 15px;
+        }
+
+        .steps p {
+          margin-top: 5px;
+        }
+
+        h1 {
+          font-size: 30px;
+        }
+
+        .section-head {
+          align-items: flex-end;
+        }
+
+        .section-head span {
+          font-size: 9px;
+        }
+
+        dialog {
+          padding: 22px;
+        }
+
+        .row {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .detail h1 {
+          font-size: 28px;
+        }
+
+      }
+
+    
+      .memory-photo.is-square { aspect-ratio: auto; border-radius: 8px; object-fit: contain; }
+      .memory-row.no-comment { grid-template-columns: 1fr; grid-template-areas: "photo"; }
+      .memory-row.no-comment .memory-photo { max-width: 420px; justify-self: center; }
+      .attachment-editor { border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin: 18px 0; background: #fffdf8; }
+      .attachment-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .attachment-name { overflow-wrap: anywhere; font-size: 12px; }
+      .attachment-preview { display: block; width: 130px; height: 130px; object-fit: cover; border-radius: 50%; margin: 16px auto; }
+      .attachment-preview.is-square { width: auto; height: auto; max-width: 100%; max-height: 180px; border-radius: 6px; object-fit: contain; }
+      .attachment-editor textarea, .attachment-editor select { width: 100%; }
+      .attachment-editor label { margin-top: 14px; }
+      .attachment-editor .secondary { padding: 6px 12px; flex-shrink: 0; }
+      .detail .message { overflow-wrap: anywhere; }
+      @media(max-width:480px) { input, textarea, select { font-size: 16px; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="#" class="brand">
+        memori
+        <span>
+          思い出が育つ木
+        </span>
+      </a>
+      <a href="#" class="back">
+        わが家の葉っぱ ↗
+      </a>
+    </header>
+    <main id="app">
+    </main>
+    <footer>
+      memori
+      <span>
+        一枚の葉に、ひとつの思い出を。
+      </span>
+    </footer>
+    <dialog id="editor">
+      <form id="memory-form">
+        <div class="form-head">
+          <span class="eyebrow" id="leaf-label">
+          </span>
+          <button type="button" id="close" aria-label="閉じる">
+            ×
+          </button>
+        </div>
+        <h2>
+          この日を、葉に残そう。
+        </h2>
+        <p>
+          写真一枚でも、ひとことだけでも。
+        </p>
+        <label>
+          思い出のタイトル
+          <input name="title" required maxlength="80" placeholder="ふたりではじめての花火大会">
+        </label>
+        <div class="row">
+          <label>
+            日付
+            <input type="date" name="date">
+          </label>
+          <label>
+            場所
+            <input name="place" maxlength="120" placeholder="いつもの公園">
+          </label>
+        </div>
+        <label>
+          思い出全体に添える文章（任意）
+          <textarea name="message" rows="5" maxlength="10000" placeholder="あの日の気持ち、忘れたくない会話。自由に書いてみてください。">
+          </textarea>
+        </label>
+        <label>
+          写真・動画・音声を添える
+          <input type="file" id="files" multiple accept="image/*,video/*,audio/*">
+        </label>
+        <p class="hint">
+          複数選択・追加できます。写真ごとに形とコメントを設定できます。全ファイルの合計50MBまで。
+        </p>
+        <div id="attachments">
+        </div>
+        <label>
+          葉っぱの色
+          <select name="color">
+            <option value="orange">
+              こはく
+            </option>
+            <option value="green">
+              わかば
+            </option>
+            <option value="pink">
+              さくら
+            </option>
+            <option value="blue">
+              そら
+            </option>
+          </select>
+        </label>
+        <p class="hint">
+          試作版：記録はこの端末のブラウザに保存されます。家族との共有は未対応です。
+        </p>
+        <p id="error" role="alert">
+        </p>
+        <button class="primary" type="submit">
+          思い出を残す
+          <span>
+            ↗
+          </span>
+        </button>
+      </form>
+    </dialog>
+    <!-- データ保存・画面表示・フォーム操作 -->
+    <script>
+      const app = document.querySelector('#app'), dialog = document.querySelector('dialog'), form = document.querySelector('form');
+      const colors = {
+        orange: '#deb575', green: '#aaba8e', pink: '#d5a4a5', blue: '#9fbfc8'
+      };
+      let db, records = {
+      }, editing, existing = [], urls = [];
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ( {
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }
+      [c]));
+      const key = n => String(n).padStart(2, '0');
+      function request(r) {
+        return new Promise((resolve, reject) => {
+          r.onsuccess = () => resolve(r.result);
+          r.onerror = () => reject(r.error)
+        })
+      }
+      async function init() {
+        try {
+          const r = indexedDB.open('memori-base', 1);
+          r.onupgradeneeded = () => r.result.createObjectStore('memories', {
+            keyPath: 'id'
+          });
+          db = await request(r);
+          const all = await request(db.transaction('memories').objectStore('memories').getAll());
+          records = Object.fromEntries(all.map(x => [x.id, x]));
+          render()
+        } catch (e) {
+          app.innerHTML = '<h1>保存領域を開けませんでした</h1><p>通常のブラウザウィンドウで開き直してください。</p>'
+        }
+      }
+      function tree() {
+        let leaves = '';
+        for (let i = 0;
+        i < 15;
+        i++) {
+          let x = [100, 155, 210, 265, 320][i % 5], y = 55 + Math.floor(i / 5) * 65;
+          leaves += `<path d="M225 270 Q225 ${y+35} ${x} ${y+25}" fill="none" stroke="#b0a28b" stroke-width="2"/><ellipse cx="${x}" cy="${y}" rx="19" ry="30" transform="rotate(${i%2?40:-40} ${x} ${y})" fill="${Object.values(colors)[i%4]}" opacity=".75"/>`
+        }
+        return `<svg class="tree" viewBox="0 0 450 320" aria-label="15枚の思い出の葉が育つ木" role="img"><ellipse cx="225" cy="298" rx="120" ry="9" fill="#e8e3d6"/><path d="M220 295 Q232 200 220 100 M230 295 Q218 200 230 90" fill="none" stroke="#aa9980" stroke-width="6" stroke-linecap="round"/>${leaves}</svg>`
+      }
+      function render() {
+        urls.forEach(URL.revokeObjectURL);
+        urls = [];
+        const m = location.hash.match(/^#leaf\/(\d{2})$/);
+        if (m && + m[1] >= 1 && + m[1] <= 15) {
+          detail(m[1]);
+          return
+        }
+        app.innerHTML = `<section class="hero"><div><span class="eyebrow">OUR FAMILY, OUR MEMORIES</span><h1>何気ない今日が、<br>家族の宝物になる。</h1><p>一枚の葉に、ひとつの思い出を。<br>ふたりで残した日々を、いつか新しい家族へ。<br>わが家の時間を、少しずつ育てていこう。</p></div>${tree()}</section><section><div class="section-head"><h2>わが家の葉っぱ</h2><span>${Object.keys(records).length} / 15 枚の思い出</span></div><div class="grid">${Array.from({length:15},(_,i)=>{let id=key(i+1),r=records[id];return `<a class="leaf-card" href="#leaf/${id}" style="--leaf:${colors[r?.color||Object.keys(colors)[i%4]]}"><div class="leaf-icon"></div><small>LEAF ${id}</small><h3>${esc(r?.title||'まだ、まっさらな葉')}</h3><p>${esc(r?.date||'＋ 思い出を残す')}</p></a>`}).join('')}</div><p class="note">試作版 / 記録はこの端末・このブラウザに保存されます。別の端末との共有、家族アカウントは今後対応予定です。</p></section><section class="story"><span class="eyebrow">MEMORIES GROW WITH US</span><h2>その日を知らない家族にも。</h2><div class="steps"><div><span>01</span><h3>ふたりのはじまり</h3><p>初めてのお出かけも、何気ない休日も。ふたりだけの思い出を、一枚ずつ。</p></div><div><span>02</span><h3>ふたりが、家族になる日</h3><p>結婚式の写真や、大切な人からの言葉。その日の気持ちまで、残しておこう。</p></div><div><span>03</span><h3>新しい家族へ、つなぐ</h3><p>「このとき、どんな日だった？」葉をきっかけに話す思い出。新しい記憶も重ねていく。</p></div></div></section>`
+      }
+      function detail(id) {
+        const r = records[id];
+        if (!r) {
+          app.innerHTML = `<section class="empty"><span class="eyebrow">LEAF ${id}</span><div class="leaf-icon" style="margin-top:40px"></div><h1>この葉の物語は、<br>ここから。</h1><p>写真や言葉、あの日の声。<br>未来の家族に届けたい思い出を残しましょう。</p><button class="primary" id="edit">思い出を残す ↗</button></section>`
+        } else {
+          app.innerHTML = `
+            <article class="detail">
+              <span class="eyebrow">A MEMORY ON LEAF ${id}</span>
+              <h1>${esc(r.title)}</h1>
+              <p class="meta">${esc(r.date)} ${r.place ? ' / ' + esc(r.place) : ''}</p>
+              <div id="media" class="memory-layout"></div>
+              ${r.message ? `<p class="message">${esc(r.message)}</p>` : ''}
+              <div class="actions">
+                <button class="secondary" id="edit">思い出を編集する</button>
+                <button class="secondary" id="copy">この葉のURLをコピー</button>
+              </div>
+              <p class="hint">この記録はこのブラウザ内に保存されています。URLだけでは他の端末へ記録を共有できません。</p>
+            </article>
+          `;
+          const media = document.querySelector('#media');
+          for (const a of r.files || []) {
+            const type = a.blob.type.split('/')[0];
+            if (!['image', 'audio', 'video'].includes(type)) continue;
+            const el = document.createElement(type === 'image' ? 'img' : type);
+            el.src = URL.createObjectURL(a.blob);
+            urls.push(el.src);
+            if (type === 'image') {
+              const row = document.createElement('div');
+              row.className = 'memory-row' + (a.caption ? '' : ' no-comment');
+              el.className = 'memory-photo' + (a.shape === 'square' ? ' is-square' : '');
+              el.alt = a.name || '思い出の写真';
+              row.append(el);
+              if (a.caption) {
+                const comment = document.createElement('p');
+                comment.className = 'memory-comment';
+                comment.textContent = a.caption;
+                row.append(comment);
+              }
+              media.append(row);
+            } else {
+              el.controls = true;
+              el.preload = 'metadata';
+              const wrapper = document.createElement('div');
+              wrapper.className = 'memory-extra';
+              wrapper.append(el);
+              media.append(wrapper);
+            }
+          }
+          document.querySelector('#copy').onclick = async e => {
+            try {
+              await navigator.clipboard.writeText(location.href);
+              e.target.textContent = 'コピーしました'
+            } catch {
+              e.target.textContent = 'アドレス欄からコピーしてください'
+            }
+          }
+        }
+        document.querySelector('#edit').onclick = () => openEditor(id)
+      }
+      let editorUrls = [];
+
+      function clearEditorUrls() {
+        editorUrls.forEach(url => URL.revokeObjectURL(url));
+        editorUrls = [];
+      }
+
+      function attachmentList() {
+        clearEditorUrls();
+        const container = document.querySelector('#attachments');
+        container.replaceChildren();
+        existing.forEach((file, index) => {
+          const isPhoto = file.blob.type.startsWith('image/');
+          const card = document.createElement('div');
+          card.className = 'attachment-editor';
+          card.innerHTML = `
+            <div class="attachment-top">
+              <span class="attachment-name">${esc(file.name)}</span>
+              <button class="secondary" type="button" data-remove>削除</button>
+            </div>
+            ${isPhoto ? `
+              <img class="attachment-preview" alt="写真のプレビュー">
+              <label>写真の形
+                <select aria-label="${esc(file.name)}の形">
+                  <option value="circle">○ 丸（円形に切り抜く）</option>
+                  <option value="square">□ 四角（写真全体を表示）</option>
+                </select>
+              </label>
+              <label>この写真のコメント
+                <textarea rows="3" maxlength="3000" placeholder="この瞬間の気持ちや、覚えておきたいこと"></textarea>
+              </label>
+            ` : '<p class="hint">再生ボタン付きで思い出ページに表示します。</p>'}
+          `;
+          card.querySelector('[data-remove]').onclick = () => {
+            existing.splice(index, 1);
+            attachmentList();
+          };
+          if (isPhoto) {
+            const preview = card.querySelector('img');
+            preview.src = URL.createObjectURL(file.blob);
+            editorUrls.push(preview.src);
+            const shape = card.querySelector('select');
+            shape.value = file.shape === 'square' ? 'square' : 'circle';
+            const updateShape = () => {
+              file.shape = shape.value;
+              preview.classList.toggle('is-square', file.shape === 'square');
+            };
+            shape.onchange = updateShape;
+            updateShape();
+            const caption = card.querySelector('textarea');
+            caption.value = file.caption || '';
+            caption.oninput = () => { file.caption = caption.value; };
+          }
+          container.append(card);
+        });
+      }
+
+      document.querySelector('#files').onchange = e => {
+        const files = [...e.target.files];
+        const error = document.querySelector('#error');
+        if (files.some(file => !/^(image|audio|video)\//.test(file.type))) {
+          error.textContent = '写真・動画・音声ファイルを選んでください。';
+        } else if ([...existing.map(file => file.blob), ...files]
+          .reduce((total, file) => total + file.size, 0) > 50 * 1024 * 1024) {
+          error.textContent = 'ファイルの合計を50MB以下にしてください。';
+        } else {
+          existing.push(...files.map(blob => ({
+            name: blob.name, blob, caption: '', shape: 'circle'
+          })));
+          error.textContent = '';
+          attachmentList();
+        }
+        e.target.value = '';
+      };
+      dialog.addEventListener('close', clearEditorUrls);
+      function openEditor(id) {
+        editing = id;
+        form.reset();
+        const r = records[id];
+        for (const n of['title', 'date', 'place', 'message', 'color']) if (r) form.elements[n].value = r[n] || '';
+        existing = (r?.files || []).map(file => ({ ...file }));
+        document.querySelector('#leaf-label').textContent = 'LEAF ' + id;
+        document.querySelector('#error').textContent = '';
+        attachmentList();
+        dialog.showModal()
+      }
+      document.querySelector('#close').onclick = () => dialog.close();
+      form.onsubmit = async e => {
+        e.preventDefault();
+        const button = form.querySelector('[type=submit]');
+        button.disabled = true;
+        try {
+          if (existing.reduce((total, file) => total + file.blob.size, 0) > 50 * 1024 * 1024) {
+            throw Error('ファイルの合計を50MB以下にしてください。');
+          }
+          const r = { id: editing, files: existing.map(file => ({ ...file })) };
+          for (const n of['title', 'date', 'place', 'message', 'color']) r[n] = form.elements[n].value.trim();
+          if (!r.title) throw Error('タイトルを入力してください。');
+          await new Promise((resolve, reject) => {
+            const tx = db.transaction('memories', 'readwrite');
+            tx.objectStore('memories').put(r);
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+            tx.onabort = () => reject(tx.error)
+          });
+          records[editing] = r;
+          dialog.close();
+          render()
+        } catch (err) {
+          document.querySelector('#error').textContent = err.name === 'QuotaExceededError' ? '保存容量が不足しています。ファイルを減らして再度お試しください。': err.message || '保存できませんでした。'
+        } finally {
+          button.disabled = false
+        }
+      };
+      window.addEventListener('hashchange', () => {
+        render();
+        window.scrollTo(0, 0)
+      });
+      init();
+    </script>
+  </body>
+</html>
